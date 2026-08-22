@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pii-kit"
+version = "0.0.1"
+description = "Jurisdiction-aware PII pattern pack: national-ID regexes hardened by checksum validators (Singapore NRIC, Hong Kong HKID, Japan My Number, Australia TFN/ABN/Medicare, plus email/phone/IBAN/Luhn), RE2-safe forms, and a two-part redaction-safety scorer that cannot go falsely green. Pure standard library, zero runtime dependencies, with an optional advisory model channel (Gemma on vLLM/Ollama/llama.cpp) for free-text and image PII."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Ashish Awasthi" }]
+keywords = [
+  "pii", "redaction", "privacy", "data-governance", "gdpr",
+  "nric", "hkid", "my-number", "tfn", "checksum", "regex", "dlp",
+  "llm", "ner", "gemma", "vllm", "vision", "ocr",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Security",
+  "Topic :: Text Processing :: Filters",
+  "Typing :: Typed",
+]
+
+# ZERO runtime dependencies: the rows, validators, RE2 forms and scorer are stdlib-only, so a
+# consuming project pins this package and inherits no transitive runtime deps, and it installs
+# and runs on an air-gapped host.
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/portable-genai/pii-kit"
+Source = "https://github.com/portable-genai/pii-kit"
+Issues = "https://github.com/portable-genai/pii-kit/issues"
+
+[project.optional-dependencies]
+# The test/lint toolchain. Ruff is pinned EXACTLY so formatting never drifts across machines.
+dev = [
+  "ruff==0.15.18",
+  "mypy>=1.10",
+  "pytest>=8.2",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pii_kit"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
