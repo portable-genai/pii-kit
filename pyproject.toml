@@ -38,7 +38,7 @@ Issues = "https://github.com/portable-genai/pii-kit/issues"
 [project.optional-dependencies]
 # The test/lint toolchain. Ruff is pinned EXACTLY so formatting never drifts across machines.
 dev = [
-  "ruff==0.16.3",
+  "ruff==0.16.5",
   "mypy>=1.10",
   "pytest>=8.2",
 ]
